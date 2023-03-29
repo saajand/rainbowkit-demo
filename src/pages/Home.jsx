@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../stylings/Home.css';
 
 import {
@@ -12,27 +12,66 @@ import {
     useProvider,
     useAccount,
     useNetwork,
+    useSigner,
 } from 'wagmi';
 import { disconnect } from '@wagmi/core'
+import {
+    approveTowerSpender,
+    createContract,
+    getTowerBalance,
+    signMessage,
+} from '../services/HomeServices';
+import Contract from '../abis/Contracts.json';
+
 
 const Home = () => {
+    const [towerBalance, setTowerBalance] = useState(0);
+    const [messageValue, setMessageValue] = useState('');
+    const [messageSignature, setMessageSignature] = useState('');
+    const [spenderAddress, setSpenderAddress] = useState('');
+
     const { openConnectModal } = useConnectModal();
 	const { openAccountModal } = useAccountModal();
 	const { openChainModal } = useChainModal();
 
-    const provider = useProvider();
-    console.log(provider)
+    // const provider = useProvider();
+    // console.log(provider);
 
     const { address } = useAccount();
     const accObj = useAccount();
     const { chain } = useNetwork();
 
-    console.log(accObj)
+    const { data: signerData } = useSigner({ chainId: chain?.id });
+
+    console.log(accObj);
+
+    const handleSignMessageSubmit = async () => {
+        let msgSign = await signMessage(messageValue, address);
+        setMessageSignature(msgSign);
+    }
+
+    const handleApprove = async () => {
+        const provider = signerData.provider.provider;
+        const towerContract = await createContract(Contract.contracts['PolygonTower'], provider);
+        let txn = await approveTowerSpender(towerContract, spenderAddress, "1000000000000000000", address);
+        if (txn && txn?.transactionHash) {
+            alert(`Approval Success. TXN HASH: ${txn.transactionHash}`);
+        }
+    }
 
     useEffect(() => {
         console.log("address", address);
         console.log("network chain", chain);
-    }, [address, chain]);
+
+        (async () => {
+            if (address && signerData?.provider) {
+                const provider = signerData.provider.provider;
+                const towerContract = await createContract(Contract.contracts['PolygonTower'], provider);
+                let towerBalance = await getTowerBalance(towerContract, address);
+                setTowerBalance(towerBalance);
+            }
+        })();
+    }, [address, chain, signerData]);
 
     return (
         <div>
@@ -84,6 +123,31 @@ const Home = () => {
                     </tr>
                 </tbody>
             </table>
+
+
+            <h3>TOWER Details</h3>
+            <div>
+                <div>TOWER Balance: <b>{towerBalance}</b></div>
+                
+                <div>
+                    <input
+                        type="text"
+                        value={spenderAddress}
+                        onChange={e => setSpenderAddress(e.target.value)}
+                    />
+                    <button onClick={handleApprove}>Approve</button>
+                </div>
+
+                <div>
+                    <input
+                        type="text"
+                        value={messageValue}
+                        onChange={e => setMessageValue(e.target.value)}
+                    />
+                    <button onClick={handleSignMessageSubmit}>Sign Message</button>
+                    <div>{messageSignature}</div>
+                </div>
+            </div>
         </div>
     )
 }
