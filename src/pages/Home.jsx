@@ -46,7 +46,8 @@ const Home = () => {
     console.log(accObj);
 
     const handleSignMessageSubmit = async () => {
-        let msgSign = await signMessage(messageValue, address);
+        const provider = signerData.provider.provider;
+        let msgSign = await signMessage(messageValue, address, provider);
         setMessageSignature(msgSign);
     }
 
@@ -126,6 +127,7 @@ const Home = () => {
 
 
             <h3>TOWER Details</h3>
+            <h4>Switch to Polygon Mumbai Network.</h4>
             <div>
                 <div>TOWER Balance: <b>{towerBalance}</b></div>
                 

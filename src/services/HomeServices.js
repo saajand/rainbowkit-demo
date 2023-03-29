@@ -9,8 +9,8 @@ async function createContract (contractDetails, customProvider=null) {
             contract.setProvider(customProvider);
         }
         return contract;
-    } catch (e) {
-        console.log(e);
+    } catch (err) {
+        console.log("Contract create error.", err);
     }
 }
 
@@ -21,17 +21,17 @@ async function getTowerBalance (contract, targetWalletAddress) {
         let bal = Number(fromWei(balance));
         return bal;
     } catch (err) {
-        console.log("Unable to fetch TOWER balance.");
+        console.log("Unable to fetch TOWER balance.", err);
     }
 }
 
-async function signMessage (signMessage, signerAddress) {
+async function signMessage (signMessage, signerAddress, provider) {
     try {
-        let web3 = new Web3(window.ethereum);
+        let web3 = new Web3(provider);
         const signature = await web3.eth.personal.sign(signMessage, signerAddress, undefined);
         return signature;
     } catch (err) {
-        console.log("Error siging message");
+        console.log("Error siging message.", err);
     }
 }
 
@@ -45,7 +45,7 @@ async function approveTowerSpender (contract, spenderAddress, amount, requesterA
             return tx;
         }
     } catch (err) {
-        console.log("Error siging message");
+        console.log("Error siging message.", err);
     }
 }
 
