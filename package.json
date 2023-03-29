@@ -1,0 +1,37 @@
+{
+  "name": "rainbowkit-demo-react-v16",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "^0.12.4",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "ethers": "5.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1",
+    "wagmi": "^0.12.4",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
+  }
+}

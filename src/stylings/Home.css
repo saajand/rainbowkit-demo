@@ -1,0 +1,27 @@
+.app-title {
+    font-size: 32px;
+    font-family: Oxygen;
+    margin-bottom: 64px;
+}
+
+.wallet-connect-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.connect-button {
+    margin: 4px 16px;
+}
+
+table {
+    width: 100%;
+    max-width: 1000px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin: auto;
+    margin-top: 24px;
+}
+
+table, td {
+    border: 1px solid #000000;
+}
