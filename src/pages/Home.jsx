@@ -31,10 +31,13 @@ const Home = () => {
         handleLogOut,
         setShowAuthFlow,
         showAuthFlow,
-        primaryWallet
+        primaryWallet,
+        network,
+        networkConfigurations
       } = useDynamicContext();
     
       const [balance, setBalance] = useState(null);
+      const [chainName, setChainName] = useState("");
     
       useEffect(() => {
         const fetchBalance = async () => {
@@ -44,7 +47,14 @@ const Home = () => {
           }
         };
         fetchBalance();
-      }, [primaryWallet]);
+        if (networkConfigurations) {
+            networkConfigurations.evm.map((value) => {
+                if (value.chainId === network) {
+                    setChainName(value.chainName)
+                }
+            })
+        }
+      }, [primaryWallet, network]);
 
     console.log(accObj)
 
@@ -53,19 +63,17 @@ const Home = () => {
         console.log("network chain", chain);
     }, [address, chain]);
 
-    // if (primaryWallet && !showAuthFlow) {
-    //     return (
-    //       <div>
-    //         <p>User is logged in</p>
-    //         <p>Address: {primaryWallet.address}</p>
-    //         <p>Balance: {balance}</p>
-    //         <button type="button" onClick={handleLogOut}>
-    //           Log Out
-    //         </button>
-    //       </div>
-    //     );
-        
-    // }
+    const signMessage = async () => {
+        if (!primaryWallet) return;
+    
+        const signer = await primaryWallet.connector.getSigner();
+    
+        if (!signer) return;
+    
+        const signature = await signer.signMessage('example');
+    
+        console.log('signature', signature);
+    };
 
     return (
         <div>
@@ -76,8 +84,6 @@ const Home = () => {
             {primaryWallet && !showAuthFlow && (
             <div>
                 <p>User is logged in</p>
-                <p>Address: {primaryWallet.address}</p>
-                <p>Balance: {balance}</p>
                 <button type="button" onClick={handleLogOut}>
                 Log Out
                 </button>
@@ -97,17 +103,12 @@ const Home = () => {
                     </tr>
                     <tr>
                         <td>Connected Network:</td>
-                        {/* <td>{chain?.id && chain?.name ? <span>{chain.name} ({chain.id})</span> : '- -'}</td> */}
+                        <td>{network && chainName ? <span>{chainName} ({network})</span> : '- -'}</td>
                     </tr>
                 </tbody>
             </table>
 
-            {
-            (primaryWallet && !showAuthFlow) && 
-            <button type="button" onClick={handleLogOut}>
-                Log Out
-            </button>
-            }
+            <button onClick={signMessage}>Sign message</button>
 
             {/* <h1 className="app-title">Rainbowkit - React (v16)</h1>
 
