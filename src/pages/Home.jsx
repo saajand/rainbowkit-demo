@@ -38,6 +38,7 @@ const Home = () => {
     
       const [balance, setBalance] = useState(null);
       const [chainName, setChainName] = useState("");
+      const [messageValue, setMessageValue] = useState('');
     
       useEffect(() => {
         const fetchBalance = async () => {
@@ -64,29 +65,43 @@ const Home = () => {
     }, [address, chain]);
 
     const signMessage = async () => {
-        if (!primaryWallet) return;
-    
-        const signer = await primaryWallet.connector.getSigner();
-    
-        if (!signer) return;
-    
-        const signature = await signer.signMessage('example');
-    
-        console.log('signature', signature);
+        try {
+            if (!primaryWallet) return;
+        
+            const signer = await primaryWallet.connector.getSigner();
+        
+            if (!signer) return;
+        
+            const signature = await signer.signMessage(messageValue);
+        
+            console.log('signature', signature);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
         <div>
             <h1 className="app-title">Dynamic.xyz</h1>
 
-            <DynamicWidget/>
+            <div className='dynamic-widget'>
+                <DynamicWidget/>
+            </div>
 
             {primaryWallet && !showAuthFlow && (
-            <div>
+            <div className='user-details-section'>
                 <p>User is logged in</p>
-                <button type="button" onClick={handleLogOut}>
-                Log Out
-                </button>
+                <input
+                    type="text"
+                    value={messageValue}
+                    onChange={e => setMessageValue(e.target.value)}
+                />
+                <button onClick={signMessage}>Sign message</button>
+                <div className='log-out-btn'>
+                    <button type="button" onClick={handleLogOut}>
+                    Log Out
+                    </button>
+                </div>
             </div>)
             }
 
@@ -107,8 +122,6 @@ const Home = () => {
                     </tr>
                 </tbody>
             </table>
-
-            <button onClick={signMessage}>Sign message</button>
 
             {/* <h1 className="app-title">Rainbowkit - React (v16)</h1>
 

@@ -4,6 +4,15 @@
     margin-bottom: 64px;
 }
 
+.dynamic-widget {
+    display: flex;
+    justify-content: center;
+}
+
+.log-out-btn {
+    margin-top: 20px;
+}
+
 .wallet-connect-button-container {
     display: flex;
     justify-content: center;
