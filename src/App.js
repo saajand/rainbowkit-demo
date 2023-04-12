@@ -13,6 +13,7 @@ import {
     walletConnectWallet,
     trustWallet,
 } from '@rainbow-me/rainbowkit/wallets';
+import { DynamicContextProvider, FilterAndSortWallets } from '@dynamic-labs/sdk-react';
 
 import Home from "./pages/Home";
 
@@ -50,11 +51,25 @@ function App() {
 
     return (
         <div className="App">
-            <WagmiConfig client={wagmiClient}>
+            {/* <WagmiConfig client={wagmiClient}>
                 <RainbowKitProvider chains={chains}>
                     <Home />
                 </RainbowKitProvider>
-            </WagmiConfig>
+            </WagmiConfig> */}
+
+            <div className="wallet-connect-button-container">
+                <DynamicContextProvider theme={'light'}
+                    settings={{
+                    environmentId:'d2c7ff3e-9ed3-422a-a658-f7ac19a07cd4',
+                    appName: 'Example dynamic.xyz demo',
+                    multiWallet: true,
+                    walletsFilter: FilterAndSortWallets(["metamask","coinbase","walletconnect","trust","rainbow"]),
+                    privacyPolicyUrl: "",
+                    termsOfServiceUrl: "",
+                    }}> 
+                <Home />
+                </DynamicContextProvider>
+            </div>
         </div>
     );
 }
