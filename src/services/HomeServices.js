@@ -45,7 +45,7 @@ async function approveTowerSpender (contract, spenderAddress, amount, requesterA
             return tx;
         }
     } catch (err) {
-        console.log("Error siging message.", err);
+        console.log("Error approving spender", err);
     }
 }
 
