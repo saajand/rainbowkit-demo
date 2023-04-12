@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import '../stylings/Home.css';
+import { DynamicContextProvider, DynamicWidget, FilterAndSortWallets} from '@dynamic-labs/sdk-react';
 
 import {
 	ConnectButton,
@@ -36,6 +37,18 @@ const Home = () => {
 
     return (
         <div>
+            <h1 className="app-title">Dynamic.xyz</h1>
+
+            <div className="wallet-connect-button-container">
+                <DynamicContextProvider settings={{
+                    environmentId:'d2c7ff3e-9ed3-422a-a658-f7ac19a07cd4', 
+                    multiWallet: true,
+                    walletsFilter: FilterAndSortWallets(["metamask","coinbase","walletconnect","trust","rainbow"]),
+                    }}> 
+                    <DynamicWidget />
+                </DynamicContextProvider>
+            </div>
+
             <h1 className="app-title">Rainbowkit - React (v16)</h1>
 
             <h3>Default Rainbowkit Connect button</h3>
