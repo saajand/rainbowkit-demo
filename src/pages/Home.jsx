@@ -132,7 +132,7 @@ const Home = () => {
                     </tr>
                     <tr>
                         <td>Connected Network:</td>
-                        <td>{network && chainName ? <span>{chainName} ({network})</span> : '- -'}</td>
+                        <td>{(network && chainName) ? <span>{chainName} ({network})</span> : '- -'}</td>
                     </tr>
                 </tbody>
             </table>
