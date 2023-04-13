@@ -13,6 +13,10 @@
     margin-top: 20px;
 }
 
+table {
+ margin-bottom: 20px !important;
+}
+
 .wallet-connect-button-container {
     display: flex;
     justify-content: center;

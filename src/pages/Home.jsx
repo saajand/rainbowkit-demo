@@ -136,12 +136,15 @@ const Home = () => {
                     </tr>
                 </tbody>
             </table>
-            <input
-                type="text"
-                value={messageValue}
-                onChange={e => setMessageValue(e.target.value)}
-            />
-            <button onClick={signMessage}>Sign message</button>
+
+            <div>
+                <input
+                    type="text"
+                    value={messageValue}
+                    onChange={e => setMessageValue(e.target.value)}
+                />
+                <button onClick={signMessage}>Sign message</button>
+            </div>
 
             <div>
                 <input
