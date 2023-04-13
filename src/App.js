@@ -19,6 +19,69 @@ import Home from "./pages/Home";
 
 const alchemyProviderKey = process.env.REACT_APP_ALCHEMY_KEY;
 
+const evmNetworks = [
+    {
+      blockExplorerUrls: ['https://etherscan.io/'],
+      chainId: 1,
+      chainName: 'Ethereum Mainnet',
+      iconUrls: ['https://app.dynamic.xyz/assets/networks/eth.svg'],
+      nativeCurrency: {
+        decimals: 18,
+        name: 'Ether',
+        symbol: 'ETH',
+      },
+      networkId: 1,
+      shortName: 'eth',
+      rpcUrls: ['https://mainnet.infura.io/v3/'],
+      vanityName: 'ETH Mainnet',
+    },
+  {
+      blockExplorerUrls: ['https://etherscan.io/'],
+      chainId: 5,
+      chainName: 'Ethereum Goerli',
+      iconUrls: ['https://app.dynamic.xyz/assets/networks/eth.svg'],
+      nativeCurrency: {
+        decimals: 18,
+        name: 'Ether',
+        symbol: 'ETH',
+      },
+      networkId: 5,
+      rpcUrls: ['https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
+      shortName: 'eth',
+      vanityName: 'Goerli',
+    },
+    {
+      blockExplorerUrls: ['https://polygonscan.com/'],
+      chainId: 137,
+      chainName: 'Matic Mainnet',
+      iconUrls: ['https://app.dynamic.xyz/assets/networks/polygon.svg'],
+      nativeCurrency: {
+        decimals: 18,
+        name: 'MATIC',
+        symbol: 'MATIC',
+      },
+      networkId: 137,
+      rpcUrls: ['https://polygon-rpc.com'],
+      shortName: 'MATIC',
+      vanityName: 'Polygon',
+    },
+    {
+        blockExplorerUrls: ['https://mumbai.polygonscan.com'],
+        chainId: 80001,
+        chainName: 'Polygon - Mumbai',
+        iconUrls: ['https://app.dynamic.xyz/assets/networks/polygon.svg'],
+        nativeCurrency: {
+          decimals: 18,
+          name: 'MATIC',
+          symbol: 'MATIC',
+        },
+        networkId: 1,
+        shortName: 'maticmum',
+        rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+        vanityName: 'Polygon - Mumbai',
+      },
+  ];
+
 function App() {
     const { chains, provider } = configureChains(
         [mainnet, goerli, polygon, polygonMumbai, bsc, bscTestnet],
@@ -66,6 +129,7 @@ function App() {
                     walletsFilter: FilterAndSortWallets(["metamask","coinbase","walletconnect","trust","rainbow"]),
                     privacyPolicyUrl: "",
                     termsOfServiceUrl: "",
+                    evmNetworks
                     }}> 
                 <Home />
                 </DynamicContextProvider>

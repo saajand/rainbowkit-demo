@@ -113,7 +113,7 @@ const Home = () => {
                 <p>User is logged in</p>
                 <div className='log-out-btn'>
                     <button type="button" onClick={handleLogOut}>
-                    Log Out
+                        Disconnect
                     </button>
                 </div>
             </div>)
