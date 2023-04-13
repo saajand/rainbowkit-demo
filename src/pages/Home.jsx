@@ -15,7 +15,8 @@ import {
     useNetwork,
 } from 'wagmi';
 import { disconnect } from '@wagmi/core'
-import { approveTowerSpender, createContract } from '../services/HomeServices';
+import { approveTowerSpender, createContract,getTowerBalance } from '../services/HomeServices';
+import Contract from '../abis/Contracts.json';
 
 const Home = () => {
     const { openConnectModal } = useConnectModal();
@@ -45,8 +46,11 @@ const Home = () => {
       useEffect(() => {
         const fetchBalance = async () => {
           if (primaryWallet) {
-            const value = await primaryWallet.connector.getBalance();
-            setBalance(value);
+            const signer = await primaryWallet.connector.getSigner();
+            const provider = signer.provider.provider;
+            const towerContract = await createContract(Contract.contracts['PolygonTower'], provider);
+            let towerBalance = await getTowerBalance(towerContract, address);
+            setBalance(towerBalance);
           }
           
         };
@@ -137,7 +141,7 @@ const Home = () => {
                         <td>{(primaryWallet && !showAuthFlow && primaryWallet.address) ? <span>{primaryWallet.address}</span> : '- -'}</td>
                     </tr>
                     <tr>
-                        <td>Balance:</td>
+                        <td>TOWER Balance:</td>
                         <td>{(primaryWallet && !showAuthFlow) ? <span>{balance}</span> : '- -'}</td>
                     </tr>
                     <tr>
