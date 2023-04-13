@@ -15,6 +15,7 @@ import {
     useNetwork,
 } from 'wagmi';
 import { disconnect } from '@wagmi/core'
+import { approveTowerSpender, createContract } from '../services/HomeServices';
 
 const Home = () => {
     const { openConnectModal } = useConnectModal();
@@ -39,6 +40,7 @@ const Home = () => {
       const [balance, setBalance] = useState(null);
       const [chainName, setChainName] = useState("");
       const [messageValue, setMessageValue] = useState('');
+      const [spenderAddress, setSpenderAddress] = useState('');
     
       useEffect(() => {
         const fetchBalance = async () => {
@@ -46,6 +48,7 @@ const Home = () => {
             const value = await primaryWallet.connector.getBalance();
             setBalance(value);
           }
+          
         };
         fetchBalance();
         if (networkConfigurations) {
@@ -80,6 +83,33 @@ const Home = () => {
         }
     };
 
+    const handleApprove = async () => {
+        if (!primaryWallet) return;
+        const signer = await primaryWallet.connector.getSigner();
+        if (!signer) return;
+        const provider = signer.provider.provider;
+        const towerContract = await createContract(Contract.contracts['PolygonTower'], provider);
+        let txn = await approveTowerSpender(towerContract, spenderAddress, "1000000000000000000", address);
+        if (txn && txn?.transactionHash) {
+            alert(`Approval Success. TXN HASH: ${txn.transactionHash}`);
+        }
+    }
+
+    // const approveTowerSpender = async(contract, spenderAddress, amount, requesterAddress) => {
+    //     try {
+    //         const tx = await contract.methods.approve(spenderAddress, amount).send({
+    //             from: requesterAddress,
+    //         });
+    
+    //         if (tx?.status && tx?.transactionHash) {
+    //             return tx;
+    //         }
+    //     } catch (err) {
+    //         console.log("Error approving spender", err);
+    //     }
+    // }
+    
+
     return (
         <div>
             <h1 className="app-title">Dynamic.xyz</h1>
@@ -91,12 +121,6 @@ const Home = () => {
             {primaryWallet && !showAuthFlow && (
             <div className='user-details-section'>
                 <p>User is logged in</p>
-                <input
-                    type="text"
-                    value={messageValue}
-                    onChange={e => setMessageValue(e.target.value)}
-                />
-                <button onClick={signMessage}>Sign message</button>
                 <div className='log-out-btn'>
                     <button type="button" onClick={handleLogOut}>
                     Log Out
@@ -122,6 +146,21 @@ const Home = () => {
                     </tr>
                 </tbody>
             </table>
+            <input
+                type="text"
+                value={messageValue}
+                onChange={e => setMessageValue(e.target.value)}
+            />
+            <button onClick={signMessage}>Sign message</button>
+
+            <div>
+                <input
+                    type="text"
+                    value={spenderAddress}
+                    onChange={e => setSpenderAddress(e.target.value)}
+                />
+                <button onClick={handleApprove}>Approve</button>
+            </div>
 
             {/* <h1 className="app-title">Rainbowkit - React (v16)</h1>
 
