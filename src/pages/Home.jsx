@@ -49,7 +49,7 @@ const Home = () => {
             const signer = await primaryWallet.connector.getSigner();
             const provider = signer.provider.provider;
             const towerContract = await createContract(Contract.contracts['PolygonTower'], provider);
-            let towerBalance = await getTowerBalance(towerContract, address);
+            let towerBalance = await getTowerBalance(towerContract, primaryWallet.address);
             setBalance(towerBalance);
           }
           
@@ -93,7 +93,7 @@ const Home = () => {
         if (!signer) return;
         const provider = signer.provider.provider;
         const towerContract = await createContract(Contract.contracts['PolygonTower'], provider);
-        let txn = await approveTowerSpender(towerContract, spenderAddress, "1000000000000000000", address);
+        let txn = await approveTowerSpender(towerContract, spenderAddress, "1000000000000000000", primaryWallet.address);
         if (txn && txn?.transactionHash) {
             alert(`Approval Success. TXN HASH: ${txn.transactionHash}`);
         }
