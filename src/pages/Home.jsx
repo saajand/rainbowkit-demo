@@ -87,31 +87,17 @@ const Home = () => {
         }
     };
 
-    // const handleApprove = async () => {
-    //     if (!primaryWallet) return;
-    //     const signer = await primaryWallet.connector.getSigner();
-    //     if (!signer) return;
-    //     const provider = signer.provider.provider;
-    //     const towerContract = await createContract(Contract.contracts['PolygonTower'], provider);
-    //     let txn = await approveTowerSpender(towerContract, spenderAddress, "1000000000000000000", address);
-    //     if (txn && txn?.transactionHash) {
-    //         alert(`Approval Success. TXN HASH: ${txn.transactionHash}`);
-    //     }
-    // }
-
-    // const approveTowerSpender = async(contract, spenderAddress, amount, requesterAddress) => {
-    //     try {
-    //         const tx = await contract.methods.approve(spenderAddress, amount).send({
-    //             from: requesterAddress,
-    //         });
-    
-    //         if (tx?.status && tx?.transactionHash) {
-    //             return tx;
-    //         }
-    //     } catch (err) {
-    //         console.log("Error approving spender", err);
-    //     }
-    // }
+    const handleApprove = async () => {
+        if (!primaryWallet) return;
+        const signer = await primaryWallet.connector.getSigner();
+        if (!signer) return;
+        const provider = signer.provider.provider;
+        const towerContract = await createContract(Contract.contracts['PolygonTower'], provider);
+        let txn = await approveTowerSpender(towerContract, spenderAddress, "1000000000000000000", address);
+        if (txn && txn?.transactionHash) {
+            alert(`Approval Success. TXN HASH: ${txn.transactionHash}`);
+        }
+    }
     
 
     return (
@@ -157,14 +143,14 @@ const Home = () => {
             />
             <button onClick={signMessage}>Sign message</button>
 
-            {/* <div>
+            <div>
                 <input
                     type="text"
                     value={spenderAddress}
                     onChange={e => setSpenderAddress(e.target.value)}
                 />
                 <button onClick={handleApprove}>Approve</button>
-            </div> */}
+            </div>
 
             {/* <h1 className="app-title">Rainbowkit - React (v16)</h1>
 
