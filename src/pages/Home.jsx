@@ -42,6 +42,7 @@ const Home = () => {
       const [chainName, setChainName] = useState("");
       const [messageValue, setMessageValue] = useState('');
       const [spenderAddress, setSpenderAddress] = useState('');
+      const [signatureValue, setSignatureValue] = useState('');
     
       useEffect(() => {
         const fetchBalance = async () => {
@@ -82,6 +83,7 @@ const Home = () => {
             const signature = await signer.signMessage(messageValue);
         
             console.log('signature', signature);
+            setSignatureValue(signature);
         } catch (error) {
             console.log(error);
         }
@@ -133,6 +135,10 @@ const Home = () => {
                     <tr>
                         <td>Connected Network:</td>
                         <td>{(network && chainName) ? <span>{chainName} ({network})</span> : '- -'}</td>
+                    </tr>
+                    <tr>
+                        <td>Signature:</td>
+                        <td>{(network && chainName) ? <span>{signatureValue}</span> : '- -'}</td>
                     </tr>
                 </tbody>
             </table>

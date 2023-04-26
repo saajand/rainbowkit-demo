@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@dynamic-labs/sdk-react": "^0.15.26",
+    "@dynamic-labs/sdk-react": "^0.16.1",
     "@dynamic-labs/wagmi-connector": "^0.15.26",
     "@rainbow-me/rainbowkit": "^0.12.4",
     "@testing-library/jest-dom": "^5.16.5",
@@ -14,7 +14,8 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "wagmi": "^0.12.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "web3": "^1.9.0"
   },
   "scripts": {
     "start": "react-scripts start",
